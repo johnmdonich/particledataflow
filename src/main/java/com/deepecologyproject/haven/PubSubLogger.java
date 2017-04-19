@@ -18,11 +18,8 @@ package com.deepecologyproject.haven;
 
 import com.google.cloud.dataflow.sdk.Pipeline;
 import com.google.cloud.dataflow.sdk.io.PubsubIO;
-import com.google.cloud.dataflow.sdk.io.datastore.DatastoreIO;
-import com.google.cloud.dataflow.sdk.options.DataflowPipelineOptions;
-import com.google.cloud.dataflow.sdk.options.PipelineOptionsFactory;
+import com.google.cloud.dataflow.sdk.options.*;
 import com.google.cloud.dataflow.sdk.runners.BlockingDataflowPipelineRunner;
-import com.google.cloud.dataflow.sdk.transforms.Create;
 import com.google.cloud.dataflow.sdk.transforms.DoFn;
 import com.google.cloud.dataflow.sdk.transforms.ParDo;
 
@@ -45,26 +42,24 @@ import org.slf4j.LoggerFactory;
  *   --stagingLocation=<STAGING_LOCATION_IN_CLOUD_STORAGE>
  *   --runner=BlockingDataflowPipelineRunner
  */
-public class StarterPipeline {
-  private static final Logger LOG = LoggerFactory.getLogger(StarterPipeline.class);
+public class PubSubLogger {
+  private static final Logger LOG = LoggerFactory.getLogger(PubSubLogger.class);
+
+  public interface PubSubLoggerOptions extends DataflowPipelineOptions {
+
+    @Description("PubSub subscription path")
+    @Default.String("projects/ethereal-brace-122116/subscriptions/particles")
+    String getSubscriptionPath();
+    void setSubscriptionPath(String value);
+
+  }
 
   public static void main(String[] args) {
-//    Pipeline p = Pipeline.create(PipelineOptionsFactory.fromArgs(args).withValidation().create());
-    // Create a DataflowPipelineOptions object. This object lets us set various execution
-    // options for our pipeline, such as the associated Cloud Platform project and the location
-    // in Google Cloud Storage to stage files.
-
-    DataflowPipelineOptions options = PipelineOptionsFactory.create().as(DataflowPipelineOptions.class);
-    options.setRunner(BlockingDataflowPipelineRunner.class);
-    options.setProject("ethereal-brace-122116");
+    PubSubLoggerOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().create().as(PubSubLoggerOptions.class);
     options.setStreaming(true);
-    options.setTempLocation("gs://haven-pubsub-dev/temp");
-    options.setStagingLocation("gs://haven-pubsub-dev/staging");
-
-    // Create the Pipeline object with the options we defined above.
     Pipeline p = Pipeline.create(options);
 
-    p.apply(PubsubIO.Read.subscription("projects/ethereal-brace-122116/subscriptions/particles"))
+    p.apply(PubsubIO.Read.subscription(options.getSubscriptionPath()))
       .apply(ParDo.of(new DoFn<String, Void>() {
         @Override
         public void processElement(ProcessContext c)  {

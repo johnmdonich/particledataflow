@@ -9,6 +9,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: io.grpc:grpc-auth:0.13.1" level="project" />
+    <orderEntry type="library" name="Maven: io.grpc:grpc-netty:0.13.1" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http2:4.1.0.CR1" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.0.CR1" level="project" />
+    <orderEntry type="library" name="Maven: io.grpc:grpc-core:0.13.1" level="project" />
+    <orderEntry type="library" name="Maven: io.grpc:grpc-stub:0.13.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.auth:google-auth-library-credentials:0.4.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.cloud.dataflow:google-cloud-dataflow-java-sdk-all:1.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.apis:google-api-services-dataflow:v1b3-rev43-1.22.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-all:0.13.1" level="project" />
